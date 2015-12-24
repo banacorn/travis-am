@@ -3,7 +3,7 @@ script:
     - docker run banacorn/agda agda -V
     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
-language: nodejs
+language: node_js
 
 git:
     depth: 10
@@ -20,6 +20,9 @@ env:
 
     matrix:
         - ATOM_CHANNEL=stable
+
+services:
+    - docker
 
 addons:
     apt:
