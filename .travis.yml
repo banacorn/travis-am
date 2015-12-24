@@ -5,7 +5,7 @@ before_install:
 script:
     - docker pull banacorn/agda:$AGDA_VERSION
     - docker run banacorn/agda:$AGDA_VERSION agda -V
-    - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
+    # - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
 language: node_js
 node_js: stable
@@ -32,7 +32,7 @@ env:
 
 services:
     - docker
-    - nvm
+    # - nvm
 
 addons:
     apt:
