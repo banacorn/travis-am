@@ -6,8 +6,8 @@ git:
 sudo: false
 
 os:
-  # - linux
-  - osx
+    - linux
+    - osx
 
 env:
     global:
