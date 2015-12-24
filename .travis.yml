@@ -1,32 +1,65 @@
-sudo: false
-
-language: nodejs
-
-services:
-    - docker
-
 notifications:
-    email:
-        on_success: never
-        on_failure: never
+  email:
+    on_success: never
+    on_failure: change
 
-install:
-    # - docker pull banacorn/agda
-    # - docker run banacorn/agda agda -V
-    - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
+script: 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
-branches:
-    only:
-        # - spec
-        - travis
+git:
+  depth: 10
 
+sudo: false
 
 os:
   - linux
-  
-env:
-    global:
-        - APM_TEST_PACKAGES="agda-mode language-agda"
+  - osx
 
-    matrix:
-        - ATOM_CHANNEL=stable
+env:
+  global:
+    - APM_TEST_PACKAGES=""
+
+  matrix:
+    - ATOM_CHANNEL=stable
+    - ATOM_CHANNEL=beta
+
+addons:
+  apt:
+    packages:
+    - build-essential
+    - git
+    - libgnome-keyring-dev
+    - fakeroot
+#
+#
+# sudo: false
+#
+# language: nodejs
+#
+# services:
+#     - docker
+#
+# notifications:
+#     email:
+#         on_success: never
+#         on_failure: never
+#
+# install:
+#     # - docker pull banacorn/agda
+#     # - docker run banacorn/agda agda -V
+#     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
+#
+# branches:
+#     only:
+#         # - spec
+#         - travis
+#
+#
+# os:
+#   - linux
+#
+# env:
+#     global:
+#         - APM_TEST_PACKAGES="agda-mode language-agda"
+#
+#     matrix:
+#         - ATOM_CHANNEL=stable
