@@ -21,6 +21,9 @@ branches:
         - travis
 
 
+os:
+  - linux
+  
 env:
     global:
         - APM_TEST_PACKAGES="agda-mode language-agda"
