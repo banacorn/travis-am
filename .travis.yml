@@ -12,7 +12,7 @@ git:
 sudo: false
 
 os:
-    - linux
+    # - linux
     - osx
 
 env:
@@ -28,6 +28,7 @@ env:
 
 services:
     - docker
+    - nvm
 
 addons:
     apt:
