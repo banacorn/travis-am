@@ -1,6 +1,6 @@
 script:
-    - docker pull banacorn/agda
-    - docker run banacorn/agda agda -V
+    - echo $ATOM_CHANNEL
+    - echo $TRAVIS_OS_NAME
     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
 language: node_js
