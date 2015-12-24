@@ -3,8 +3,10 @@ script:
     - echo $TRAVIS_OS_NAME
     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
-language: node_js
-node_js: stable
+# language: node_js
+# node_js: stable
+language:
+  - objective-c
 
 git:
     depth: 10
