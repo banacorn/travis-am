@@ -1,3 +1,7 @@
+before_install:
+    - npm -v
+    - sudo npm install -g nvm
+
 script:
     - echo $ATOM_CHANNEL
     - echo $TRAVIS_OS_NAME
