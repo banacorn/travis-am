@@ -19,8 +19,10 @@ env:
         - APM_TEST_PACKAGES="agda-mode language-agda"
 
     matrix:
-        - AGDA_VERSION=latest
+        - AGDA_VERSION=2.4.2.5
         - AGDA_VERSION=2.4.2.4
+        - AGDA_VERSION=2.4.2.3
+        - AGDA_VERSION=2.4.2.2
 
 services:
     - docker
