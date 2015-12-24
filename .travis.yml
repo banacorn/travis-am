@@ -12,7 +12,7 @@ sudo: false
 
 os:
     - linux
-    - osx
+    # - osx
 
 env:
     global:
@@ -20,7 +20,6 @@ env:
 
     matrix:
         - AGDA_VERSION=2.4.2.5
-    #     - ATOM_CHANNEL=stable
 
 services:
     - docker
