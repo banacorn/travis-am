@@ -4,6 +4,8 @@ script:
     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
 language: node_js
+node_js:
+    - "5.3"
 
 git:
     depth: 10
