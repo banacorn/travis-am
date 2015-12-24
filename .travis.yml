@@ -7,9 +7,8 @@ notifications:
         on_success: never
         on_failure: never
 
-script:
+install:
     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
-    - atom -v
 
 branches:
     only:
