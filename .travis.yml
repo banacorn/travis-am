@@ -11,7 +11,7 @@ git:
 sudo: false
 
 os:
-  - linux
+  # - linux
   - osx
 
 env:
@@ -20,7 +20,7 @@ env:
 
   matrix:
     - ATOM_CHANNEL=stable
-    - ATOM_CHANNEL=beta
+    # - ATOM_CHANNEL=beta
 
 addons:
   apt:
