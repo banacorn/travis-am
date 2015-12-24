@@ -1,7 +1,5 @@
 script:
-    - echo $AGDA_VERSION
-    - echo fuck:$($AGDA_VERSION)
-    - echo $TRAVIS_OS_NAME
+    - docker pull banacorn/agda:$AGDA_VERSION
     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
 language: node_js
