@@ -20,5 +20,10 @@ branches:
         # - spec
         - travis
 
+
 env:
-    - APM_TEST_PACKAGES="agda-mode language-agda"
+    global:
+        - APM_TEST_PACKAGES="agda-mode language-agda"
+
+    matrix:
+        - ATOM_CHANNEL=stable
