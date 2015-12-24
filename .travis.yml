@@ -3,7 +3,8 @@ before_install:
     - sudo npm install -g nvm
 
 script:
-    - echo $ATOM_CHANNEL
+    - echo $AGDA_VERSION
+    - echo fuck:$($AGDA_VERSION)
     - echo $TRAVIS_OS_NAME
     - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
@@ -23,7 +24,8 @@ env:
     global:
         - APM_TEST_PACKAGES="agda-mode language-agda"
 
-    # matrix:
+    matrix:
+        - AGDA_VERSION=2.4.2.5
     #     - ATOM_CHANNEL=stable
 
 services:
