@@ -1,8 +1,7 @@
 script:
-    - $PATH
-    # - docker pull banacorn/agda:$AGDA_VERSION
-    # - docker run banacorn/agda:$AGDA_VERSION agda -V
-    # - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
+    - docker pull banacorn/agda:$AGDA_VERSION
+    - docker run banacorn/agda:$AGDA_VERSION agda -V
+    - 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
 
 language: node_js
 node_js: stable
