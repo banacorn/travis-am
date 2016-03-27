@@ -17,15 +17,24 @@ class TextBuffer
     #   Cursor Management   #
     #########################
 
+    # shift cursor if in certain goal
     protectCursor: (callback) ->
         position = @core.editor.getCursorBufferPosition()
-        callback()
+        result = callback()
         @getCurrentGoal position
             .then (goal) =>
-                newPosition = @core.editor.translate goal.range.start, 3
-                @core.editor.setCursorBufferPosition newPosition
+                # reposition the cursor in the goal only if:
+                #   * it's a fresh hole (coming from "?")
+                isFreshHole = goal.isEmpty() and goal.getContent().length is 3
+                if isFreshHole
+                    newPosition = @core.editor.translate goal.range.start, 3
+                    @core.editor.setCursorBufferPosition newPosition
+                else
+                    @core.editor.setCursorBufferPosition position
+                return result
             .catch err.OutOfGoalError, =>
                 @core.editor.setCursorBufferPosition position
+                return result
 
     focus: ->
         textEditorElement = atom.views.getView(@core.editor)
@@ -177,6 +186,11 @@ class TextBuffer
             goal = new Goal @core.editor, token.goalIndex, token.modifiedRange
             @goals.push goal
 
+    onSolveAllAction: (index, content) -> @protectCursor =>
+        goal = @findGoal index
+        goal.setContent content
+        return goal
+
     onGiveAction: (index, content, paran) -> @protectCursor =>
         goal = @findGoal index
         if content.length > 0
@@ -189,17 +203,20 @@ class TextBuffer
         goal.removeBoundary()
         @removeGoal index
 
-    onMakeCaseAction: (content) ->  @protectCursor =>
+    onMakeCaseAction: (content) -> @protectCursor =>
          @getCurrentGoal().then (goal) =>
                 goal.writeLines content
+            .catch @warnOutOfGoal
+
+    onMakeCaseActionExtendLam: (content) -> @protectCursor =>
+         @getCurrentGoal().then (goal) =>
+                 goal.writeLambda content
             .catch @warnOutOfGoal
 
     onGoto: (filepath, charIndex) ->
         if @core.getPath() is filepath
             position = @core.editor.fromIndex charIndex - 1
             @core.editor.setCursorBufferPosition position
-            # scroll down a bit further, or it would be shadowed by the panel
-            @core.editor.scrollToBufferPosition position.translate(new Point(10, 0))
 
     # Agda generates files with syntax highlighting notations,
     # those files are temporary and should be deleted once used.

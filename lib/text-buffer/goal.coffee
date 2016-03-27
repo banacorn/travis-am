@@ -39,8 +39,12 @@ class Goal
             left  = text.indexOf '{!'
             right = text.lastIndexOf '!}'
 
+            # special case: "{!}"
+            if left is 0 and right is 1
+                @restoreBoundary()
+
             # the entire goal got destroyed, so be it
-            if left is -1 and right is -1
+            else if left is -1 and right is -1
                 @destroy()
 
             # partially damaged
@@ -76,7 +80,7 @@ class Goal
         @editor.setTextInBufferRange @range, rawContent.trim()
 
     # replace and insert one or more lines of content at the goal
-    # usage: spliting case
+    # usage: splitting case
     writeLines: (contents) ->
         rows = @range.getRows()
         firstRowRange = @editor.getBuffer().rangeForRow rows[0]
@@ -95,6 +99,25 @@ class Goal
         # insert case split content
         position = firstRowRange.start
         @editor.getBuffer().insert position, contents
+
+    # rewrite lambda expression
+    # not only the goal itself, the clause it belongs to also needs to be rewritten
+    writeLambda: (contents) ->
+
+        # range to scan
+        textBuffer = @editor.getBuffer()
+        beforeRange = new Range(textBuffer.getFirstPosition(), @range.start)
+        afterRange = new Range(@range.end, textBuffer.getEndPosition())
+
+        # scan and build the range to replace text with
+        @editor.backwardsScanInBufferRange /\;\s*|\{\s*/, beforeRange, (result) =>
+            rewriteRangeStart = result.range.end
+            result.stop()
+            @editor.scanInBufferRange /\s*\;|\s*\}/, afterRange, (result) =>
+                rewriteRangeEnd = result.range.start
+                result.stop()
+                rewriteRange = new Range rewriteRangeStart, rewriteRangeEnd
+                @editor.setTextInBufferRange rewriteRange, contents.join(' ; ')
 
     getContent: ->
         left = @editor.translate @range.start, 2
@@ -115,6 +138,8 @@ class Goal
         right = @editor.translate @range.end, -(3 + @index.toString().length)
         innerRange = new Range left, right
         @editor.setSelectedBufferRange innerRange
+
+    isEmpty: -> @getContent().replace(/(\s|\\n)*/, '').length is 0
 
     # helper functions
     toIndex  : (pos) -> @editor.getBuffer().characterIndexForPosition pos

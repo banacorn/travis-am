@@ -1,3 +1,19 @@
+## 0.4.11
+* Better undo/redo
+* Add a tiny spinner for time-consuming commands
+
+## 0.4.10
+* Case splitting in lambda expressions!
+* Handles Emacs command 'agda2-maybe-goto'
+
+## 0.4.9
+* Fix library loading for the new library management system after Agda 2.5.0
+* Fix goal components (boundary/content/index) positioning
+* Make the maximum number of rows displayed in the panel adjustable
+
+## 0.4.8
+* Add a new command "agda-mode:solve-constraints"
+
 ## 0.4.7
 * Add a new command "agda-mode:info"
 

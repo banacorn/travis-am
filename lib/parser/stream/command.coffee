@@ -8,15 +8,28 @@ class ParseCommand extends Transform
             objectMode: true
 
     _transform: (tokens, encoding, next) ->
+        #  if there's error:
+        #   1. empty the command queue
+        #   2. release the history checkpoing lock
+        if tokens[0] is "agda2-info-action" and tokens[1] is "*Error*"
+            @core.commander.emptyCommandQueue()
+            @core.commander.commandEnd()
+        else
+            @core.commander.maintainCommandQueue(tokens[0])
         switch tokens[0]
             when 'agda2-info-action'    then @core.handler.infoAction tokens
             when 'agda2-status-action'  then @core.handler.statusAction tokens
             when 'agda2-goals-action'   then @core.handler.goalsAction tokens
-            when 'agda2-goto'           then @core.handler.goto tokens
             when 'agda2-give-action'    then @core.handler.giveAction tokens
             when 'agda2-parse-error'    then @core.handler.parseError tokens
+            when 'agda2-goto', 'agda2-maybe-goto'
+                @core.handler.goto tokens
+            when 'agda2-solveAll-action'
+                @core.handler.solveAllAction tokens
             when 'agda2-make-case-action'
                 @core.handler.makeCaseAction tokens
+            when 'agda2-make-case-action-extendlam'
+                @core.handler.makeCaseActionExtendLam tokens
             when 'agda2-highlight-clear'
                 @core.handler.highlightClear tokens
             when 'agda2-highlight-add-annotations'
